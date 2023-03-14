@@ -12,11 +12,6 @@ class UserService {
     async registration(login:string, password:string, email:string){
         const candidate = await UserModel.findOne({where: {login: login}});
         if (candidate !== null){
-            // return{
-            //     error:-1,
-            //     message: `Логин ${login} занят`,
-            //     userData: {}
-            // }
             throw ApiError.BadRequest(`Логин ${login} занят`);
         }
         const hashPassword = bcrypt.hashSync(password, 7);

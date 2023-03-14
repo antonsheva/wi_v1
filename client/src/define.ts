@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     ROLE_USER: 'USER',
     ROLE_ADMIN: 'ADMIN',
 

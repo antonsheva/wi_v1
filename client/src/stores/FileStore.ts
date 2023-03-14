@@ -1,7 +1,7 @@
 import {ref, computed, inject} from "vue";
 import {defineStore} from "pinia";
 import axios from 'axios';
-
+import def from '../define'
 
 export const fileStore = defineStore('fileStore', ()=>{
     const options = {
@@ -12,9 +12,10 @@ export const fileStore = defineStore('fileStore', ()=>{
     }
 
 
-    function uploadFile(file:Blob) {
+    function uploadFile(file:Blob, fileType:number) {
         let formData = new FormData();
         formData.append('fileData', file);
+        formData.append('fileType', def.FILE_TYPE_AVATAR);
         axios.post('http://localhost:5000/api/upload',formData, options)//
             .then((response)=>{
                 console.log(response.data)

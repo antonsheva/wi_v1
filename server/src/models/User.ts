@@ -15,7 +15,8 @@ module.exports = (seqelize:any) => {
             activated_link:{type: Sequelize.STRING, allowNull: true},
             vote_qt: {type: Sequelize.INTEGER, allowNull: true},
             name: {type: Sequelize.STRING, allowNull: true},
-            img: {type: Sequelize.STRING, allowNull: true},
+            img_big: {type: Sequelize.STRING, allowNull: true},
+            img_small: {type: Sequelize.STRING, allowNull: true},
             rating: {type: Sequelize.INTEGER, allowNull: true},
         },
 

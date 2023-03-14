@@ -13,7 +13,9 @@
 
                 <img class="avatar" src="https://i.imgur.com/wvxPV9S.png"/>
 
-              <input class="my-fl" type="file" id="file" ref="file" v-on:change="uploadFile"/>
+              <input class="my-fl" type="file" id="file" ref="file"
+                     accept=".jpg, .jpeg, .bmp, .ico, .png"
+                     v-on:change="uploadFile"/>
             </label>
           </div>
         </div>
