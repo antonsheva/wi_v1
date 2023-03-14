@@ -28,6 +28,7 @@
     "nodemon": "^2.0.20",
     "pg": "^8.8.0",
     "pg-hstore": "^2.3.4",
+    "qr-scanner": "^1.4.2",
     "sequelize": "^6.25.4",
     "sharp": "^0.31.3",
     "ts-node": "^10.9.1",

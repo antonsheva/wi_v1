@@ -25,15 +25,14 @@
         const  mStore = userStore();
         const signOut = ()=>{
           mStore.signOut();
-
-
-
         }
 
-
+        const getQr = () =>{
+            console.log('asdfasdfasdf')
+        }
 
         return{
-          signOut
+          signOut, getQr
         }
       }
     }
@@ -52,5 +51,8 @@
     .my_st-2{
         display: inline;
         justify-content: center;
+    }
+    .my-fl{
+      display:none;
     }
 </style>
