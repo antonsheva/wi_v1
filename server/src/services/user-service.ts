@@ -34,7 +34,6 @@ class UserService {
 
         }
     }
-
     async activate(activationLink:string){
         const userModel = await UserModel.findOne({where:{activated_link: activationLink}});
         if (userModel === null){
@@ -62,7 +61,6 @@ class UserService {
             });
         console.log('activate -> end')
     }
-
     async login(login:string, password:string){
         const userModel = await UserModel.findOne({where: {login: login}});
         if (userModel === null){
@@ -85,7 +83,9 @@ class UserService {
         }
         return await tokenService.removeToken(refreshToken);
     }
+    async updateAvatar(){
 
+    }
     async refresh(refreshToken:string){
         if(!refreshToken){
             throw ApiError.UnauthorisedError();
