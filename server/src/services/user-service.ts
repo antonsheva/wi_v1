@@ -76,11 +76,7 @@ class UserService {
         await tokenService.saveToken(userDto.id, tokens.refreshToken)
         return {...tokens, user: userDto}
     }
-    async logout(refreshToken:string|undefined){
-        if(!refreshToken){
-            refreshToken = "123456";
-            // throw ApiError.BadRequest('--- AuthorisationError ---')
-        }
+    async logout(refreshToken:string){
         return await tokenService.removeToken(refreshToken);
     }
     async updateAvatar(){

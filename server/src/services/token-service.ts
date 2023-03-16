@@ -30,8 +30,7 @@ class TokenService {
 
     validateAccessToken(token:string){
         try {
-            const userData = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
-            return userData;
+            return jwt.verify(token, process.env.JWT_ACCESS_SECRET);
         }catch (e) {
             return null;
         }
