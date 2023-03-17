@@ -28,18 +28,30 @@ class FileController{
             }
             const {refreshToken} = req.cookies;
             const userData = tokenService.validateRefreshToken(refreshToken);
-            if(!userData){
-                return next(ApiError.UnauthorisedError());
+            if(!userData)return next(ApiError.UnauthorisedError());
+
+
+
+            let err = false;
+            let newImg = 'images/tmp_avatars/profile_man.jpg';
+            if(await fileService.saveBigImg(mPath, fileData)){
+                if(!await fileService.saveSmallImg(mPath, fileData)){
+                    err = true;
+                    await fileService.removeFile(`${mPath}/big/${ fileData.filename }.jpg`);
+                }
+            }
+            await fileService.removeFile(fileData.path)
+            if (!err){
+               newImg = await userService.updateAvatar(userData.id, fileData.filename);
+               newImg = process.env.API_URL+newImg;
+            }
+            else{
+                console.log('stage error')
+                return next(ApiError.SaveFileError());
             }
 
 
-            console.log('--- start ---')
-            await fileService.saveImg(mPath, fileData);
-
-            console.log('=-=-=-=-=-=-=-=')
-            await userService.updateAvatar(userData.id, fileData.filename);
-
-            if (fileData)res.status(200).json({'message': 'file was upload'});
+            if (fileData)res.status(200).json({'message': 'file was upload', 'new_mg':newImg});
             else res.status(204).json({'message': 'error upload file'});
         }catch (e){
             next(e)

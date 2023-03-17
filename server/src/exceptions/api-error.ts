@@ -21,4 +21,8 @@ export default class ApiError extends Error {
         console.log('---AuthorisationError---')
         return new ApiError(401, 'Неверный логин или пароль!');
     }
+    static SaveFileError(){
+        console.log('---SaveFileError---')
+        return  new ApiError(401, 'Не удалось сохранить файл');
+    }
 }

@@ -23,6 +23,7 @@ export const userStore = defineStore("userStore",() => {
     const email = ref("");
     const accessToken = ref("");
 
+    const smallImg = ref(import.meta.env.VITE_BASE_URL+'/images/tmp_avatars/profile_woman.jpg')
 
     const csrf = ref("");
     const isRegForm = ref(false);
@@ -94,6 +95,6 @@ export const userStore = defineStore("userStore",() => {
         });
     }
 
-    return{ signIn, signOut, isLogin, changeRegForm, isRegForm, checkLoginState, regNewUser}
+    return{ signIn, signOut, isLogin, changeRegForm, isRegForm, checkLoginState, regNewUser, smallImg}
 
 });

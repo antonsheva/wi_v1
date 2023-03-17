@@ -11,7 +11,7 @@
           <div class="btn btn-secondary">
             <label>
 
-              <img class="avatar" src="https://i.imgur.com/wvxPV9S.png"/>
+              <img class="avatar" v-bind:src="mStore.smallImg"/>
 
               <input class="my-fl" type="file" id="file" ref="file"
                      accept=".jpg, .jpeg, .bmp, .ico, .png"

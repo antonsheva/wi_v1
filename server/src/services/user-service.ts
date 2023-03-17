@@ -80,25 +80,34 @@ class UserService {
         return await tokenService.removeToken(refreshToken);
     }
     async updateAvatar(userId:number, img:string){
-        const userModel = await UserModel.findOne({where: {id: userId}});
-        if (userModel === null){
-            throw ApiError.AuthorisationError();
-        }
-        await UserModel.update(
-            {img_big: `avatars/big/${img}.jpg`},
-            {
-                where:{id:userId},
-                returning: true,
-                plain: true
-            })
-            .then( () => {
-                console.log('avatar change -> ok')
-                return true;
-            })
-            .catch(() => {
-                console.log('avatar change -> error')
-                throw ApiError.BadRequest(`Ошибка активации`);
-            });
+        return new Promise(resolve=>{
+            const userModel =  UserModel.findOne({where: {id: userId}});
+            console.log('###################')
+            console.log('userModel -> '+userModel)
+            if (!userModel){
+                throw ApiError.AuthorisationError();
+            }
+            UserModel.update(
+                {
+                    img_big: `avatars/big/${img}.jpg`,
+                    img_small: `avatars/small/${img}.jpg`
+                },
+
+                {
+                    where:{id:userId},
+                    returning: true,
+                    plain: true
+                })
+                .then( () => {
+                    console.log('newAvatar -> '+img)
+                    resolve(`avatars/small/${img}.jpg`);
+                })
+                .catch(() => {
+                    console.log('avatar change -> error')
+                    throw ApiError.BadRequest(`Ошибка активации`);
+                });
+        })
+
     }
     async refresh(refreshToken:string){
         if(!refreshToken){
