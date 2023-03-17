@@ -38,9 +38,12 @@ class UserController {
         try {
             const {refreshToken} = req.cookies;
             console.log("logout : refreshToken -> "+ refreshToken);
-            if(refreshToken){
-                token = userService.logout(refreshToken);
+
+            if(!refreshToken){
+                return next(ApiError.BadRequest('refreshToken is absent'));
             }
+
+            token = userService.logout(refreshToken);
             res.clearCookie('refreshToken');
             return  res.status(200).json({token: token});
         }catch (e) {
@@ -51,7 +54,7 @@ class UserController {
         console.log('activate')
         try {
             const activationLink = req.params.link;
-            const result = await userService.activate(activationLink);
+            await userService.activate(activationLink);
             return res.redirect(process.env.CLIENT_URL);
         }catch (e) {
             next(e);

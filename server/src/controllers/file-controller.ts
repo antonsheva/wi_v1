@@ -1,10 +1,8 @@
-import * as path from "path";
-import { unlink } from 'node:fs';
+import ApiError from '../exceptions/api-error'
 const tokenService = require('../services/token-service')
 import {NextFunction, Request, Response} from "express";
-const sharp = require('sharp')
 const def = require('../define')
-import ApiError from '../exceptions/api-error'
+const userService = require('../services/user-service')
 const fileService = require('../services/file-service')
 
 let fileData:any;
@@ -14,11 +12,6 @@ interface MulterRequest extends Request {
 class FileController{
     async uploadSingleFile(req:Request, res:Response,next:NextFunction ){
         try{
-
-        }catch (e){
-            next(e)
-        }
-
             fileData = (req as MulterRequest).file;
             console.log('---- fileData ----')
             console.log(fileData.originalname)
@@ -36,20 +29,21 @@ class FileController{
             const {refreshToken} = req.cookies;
             const userData = tokenService.validateRefreshToken(refreshToken);
             if(!userData){
-                throw ApiError.AuthorisationError();
+                return next(ApiError.UnauthorisedError());
             }
+
+
             console.log('--- start ---')
-        await fileService.saveBigFile(mPath, fileData);
+            await fileService.saveImg(mPath, fileData);
 
+            console.log('=-=-=-=-=-=-=-=')
+            await userService.updateAvatar(userData.id, fileData.filename);
 
-
-
-        console.log('=-=-=-=-=-=-=-=')
-        console.log(userData);
-
-
-        if (fileData)res.status(200).json({'message': 'file was upload'});
-        else res.status(204).json({'message': 'error upload file'});
+            if (fileData)res.status(200).json({'message': 'file was upload'});
+            else res.status(204).json({'message': 'error upload file'});
+        }catch (e){
+            next(e)
+        }
     }
 
 

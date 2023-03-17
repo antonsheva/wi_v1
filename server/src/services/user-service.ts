@@ -51,11 +51,11 @@ class UserService {
                 returning: true,
                 plain: true
             })
-            .then( (result:any) => {
+            .then( () => {
                 console.log('activate -> ok')
                 return true;
             })
-            .catch((err:any) => {
+            .catch(() => {
                 console.log('activate -> error')
                 throw ApiError.BadRequest(`Ошибка активации`);
             });
@@ -79,8 +79,26 @@ class UserService {
     async logout(refreshToken:string){
         return await tokenService.removeToken(refreshToken);
     }
-    async updateAvatar(){
-
+    async updateAvatar(userId:number, img:string){
+        const userModel = await UserModel.findOne({where: {id: userId}});
+        if (userModel === null){
+            throw ApiError.AuthorisationError();
+        }
+        await UserModel.update(
+            {img_big: `avatars/big/${img}.jpg`},
+            {
+                where:{id:userId},
+                returning: true,
+                plain: true
+            })
+            .then( () => {
+                console.log('avatar change -> ok')
+                return true;
+            })
+            .catch(() => {
+                console.log('avatar change -> error')
+                throw ApiError.BadRequest(`Ошибка активации`);
+            });
     }
     async refresh(refreshToken:string){
         if(!refreshToken){

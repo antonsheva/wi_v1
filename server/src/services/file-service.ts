@@ -1,10 +1,8 @@
 import {unlink} from "node:fs";
-import ApiError from '../exceptions/api-error'
 const sharp = require('sharp')
-const def = require('../define')
 let fileData:any;
 class FileService{
-      async saveBigFile(mPath:string, file:any){
+      async saveImg(mPath:string, file:any){
         fileData = file;
         try{
             console.log('--1---')
