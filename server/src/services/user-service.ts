@@ -100,7 +100,7 @@ class UserService {
                 })
                 .then( () => {
                     console.log('newAvatar -> '+img)
-                    resolve(`avatars/small/${img}.jpg`);
+                    resolve(`/avatars/small/${img}.jpg`);
                 })
                 .catch(() => {
                     console.log('avatar change -> error')
